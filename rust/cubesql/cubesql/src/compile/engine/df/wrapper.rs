@@ -1174,7 +1174,15 @@ impl CubeScanWrapperNode {
                 // Expr::TableUDF { .. } => {}
                 Expr::Literal(literal) => {
                     Ok(match literal {
-                        // ScalarValue::Boolean(b) => {}
+                        ScalarValue::Boolean(b) => (
+                            b.map(|b| match b {
+                                true => "TRUE",
+                                false => "FALSE",
+                            })
+                            .unwrap_or("NULL")
+                            .to_string(),
+                            sql_query,
+                        ),
                         ScalarValue::Float32(f) => (
                             f.map(|f| format!("{}", f)).unwrap_or("NULL".to_string()),
                             sql_query,
