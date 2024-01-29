@@ -1,0 +1,36 @@
+cubes:
+  - name: clients
+    sql_table: PUBLIC_SENSITIVE.RESIDENTS
+    data_source: default
+
+    joins:
+      - name: branches
+        sql: "{CUBE}.branch_id = {branches}.branch_id"
+        relationship: many_to_one
+
+    dimensions:
+      - name: client_id
+        sql: ID
+        type: string
+        primary_key: true
+
+      - name: is_activated
+        sql: IS_ACTIVATED
+        type: boolean
+
+      - name: care_recipient_name
+        sql: CARE_RECIPIENT_NAME
+        type: string
+
+      - name: branch_id
+        sql: AGENCY_ID
+        type: string
+
+    measures:
+      - name: client_count
+        type: count
+
+    pre_aggregations:
+      # Pre-aggregation definitions go here.
+      # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started
+

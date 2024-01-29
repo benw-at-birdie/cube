@@ -18,8 +18,8 @@ export const BarOptions = {
   scales: {
     xAxes: [
       {
-        barThickness: 12,
-        maxBarThickness: 10,
+        barThickness: 30,
+        maxBarThickness: 30,
         barPercentage: 0.5,
         categoryPercentage: 0.5,
         ticks: {
@@ -37,6 +37,10 @@ export const BarOptions = {
           fontColor: palette.text.secondary,
           beginAtZero: true,
           min: 0,
+          callback: function(value, index, values) {
+            // Assuming your values are already in percentage format
+            return (value * 100).toFixed(1) + '%';
+          }
         },
         gridLines: {
           borderDash: [2],

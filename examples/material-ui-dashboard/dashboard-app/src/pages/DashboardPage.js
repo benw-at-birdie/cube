@@ -71,6 +71,23 @@ const barChartQuery = {
     },
   ],
 };
+const barChartQuery2 = {
+  measures: ['orders.count'],
+  timeDimensions: [
+    {
+      dimension: 'orders.created_at',
+      granularity: 'week',
+      dateRange: ["2019-01-01", "2019-12-31"],
+    },
+  ],
+  filters: [
+    {
+      dimension: 'orders.status',
+      operator: 'notEquals',
+      values: ['completed'],
+    },
+  ],
+};
 const doughnutChartQuery = {
   measures: ['orders.count'],
   timeDimensions: [
@@ -115,16 +132,54 @@ const Dashboard = () => {
           );
         })} */}
         <Grid item xs={3} sm={6} lg={6} xl={6} >
-          <BarChart query={barChartQuery} />
+          <BarChart title="Reported Visits" number_format="#,##0"
+            query={{
+              "measures": [
+                "visits.reported_visits"
+              ],
+              "timeDimensions": [
+                {
+                  "dimension": "visits.visit_date",
+                  "granularity": "week",
+                  "dateRange": "Last 8 weeks"
+                }
+              ],
+              "filters": [
+                {
+                  "member": "branches.branch_id",
+                  "operator": "equals",
+                  "values": [
+                    "6a597bbe-fdd4-4b90-bbff-a38e28736b96"
+                  ]
+                }
+              ]
+            }}
+          />
         </Grid>
         <Grid item xs={3} sm={6} lg={6} xl={6} >
-          <BarChart query={barChartQuery} />
-        </Grid>
-        <Grid item xs={3} sm={6} lg={6} xl={6} >
-          <BarChart query={barChartQuery} />
-        </Grid>
-        <Grid item xs={3} sm={6} lg={6} xl={6} >
-          <BarChart query={barChartQuery} />
+          <BarChart title="% of Scheduled Visits with Report" number_format="0.0%"
+            query={{
+              "measures": [
+                "visits.percentage_of_scheduled_visits_reported"
+              ],
+              "timeDimensions": [
+                {
+                  "dimension": "visits.visit_date",
+                  "granularity": "week",
+                  "dateRange": "Last 8 weeks"
+                }
+              ],
+              "filters": [
+                {
+                  "member": "branches.branch_id",
+                  "operator": "equals",
+                  "values": [
+                    "6a597bbe-fdd4-4b90-bbff-a38e28736b96"
+                  ]
+                }
+              ]
+            }}
+          />
         </Grid>
         {/* <Grid item lg={4} md={6} xl={3} xs={12}>
           <DoughnutChart query={doughnutChartQuery} />

@@ -1,0 +1,83 @@
+cubes:
+  - name: visits
+    sql_table: PUBLIC.VISITS
+    data_source: default
+
+    joins:
+      - name: branches
+        sql: "{CUBE.branch_id} = {branches.branch_id}"
+        relationship: many_to_one
+
+      - name: clients
+        sql: "{CUBE.client_id} = {clients.client_id}"
+        relationship: many_to_one
+
+      - name: caregiver_visits
+        sql: |
+          {CUBE.visit_id} = {caregiver_visits.visit_id}
+          and {CUBE.branch_id} = {caregiver_visits.branch_id}
+          and {branches.branch_id} = {caregiver_visits.branch_id}
+        relationship: one_to_many
+
+      - name: users
+        sql: "{caregiver_visits.caregiver_id} = {users.user_id}"
+        relationship: many_to_one
+
+    dimensions:
+
+      - name: visit_id
+        sql: VISIT_ID
+        type: string
+        primary_key: true
+
+      - name: visit_date
+        sql: VISIT_DATE
+        type: time
+
+      - name: client_id
+        sql: CARE_RECIPIENT_ID
+        type: string
+
+      - name: branch_id
+        sql: AGENCY_ID
+        type: string
+
+      - name: visit_scheduled
+        sql: VISIT_SCHEDULED = 1
+        type: boolean
+
+      - name: visit_reported
+        sql: VISIT_COMPLETED = 1
+        type: boolean
+
+    measures:
+      - name: count
+        type: count
+
+      - name: scheduled_visits
+        type: count_distinct
+        sql: VISIT_ID
+        filters:
+          - sql: VISIT_SCHEDULED = 1
+
+      - name: reported_visits
+        type: count_distinct
+        sql: VISIT_ID
+        filters:
+          - sql: VISIT_COMPLETED = 1
+
+      - name: scheduled_visits_reported_count
+        type: count
+        filters:
+          - sql: VISIT_SCHEDULED = 1 and VISIT_COMPLETED = 1
+
+      - name: percentage_of_scheduled_visits_reported
+        type: number
+        format: percent
+        sql: |
+          {CUBE.scheduled_visits_reported_count} / {CUBE.scheduled_visits}
+
+    pre_aggregations:
+      # Pre-aggregation definitions go here.
+      # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started
+

@@ -1,23 +1,20 @@
 cubes:
-  - name: product_categories
-    sql_table: public.product_categories
+  - name: branches
+    sql_table: PUBLIC.AGENCIES
     data_source: default
 
     joins: []
 
     dimensions:
-      - name: id
-        sql: id
-        type: number
+
+      - name: branch_id
+        sql: AGENCY_ID
+        type: string
         primary_key: true
 
-      - name: name
-        sql: name
+      - name: branch_name
+        sql: NAME
         type: string
-
-      - name: created_at
-        sql: created_at
-        type: time
 
     measures:
       - name: count

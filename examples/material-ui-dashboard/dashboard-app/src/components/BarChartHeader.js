@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const BarChartHeader = (props) => {
-  const { setDateRange, dateRange, dates } = props;
+  const { setDateRange, dateRange, dates, title } = props;
   const defaultDates = ['This week', 'This month', 'Last 7 days', 'Last month'];
   const classes = useStyles();
 
@@ -27,40 +27,40 @@ const BarChartHeader = (props) => {
   };
   return (
     <CardHeader
-      action={
-        <div>
-          <Button
-            className={classes.headerButton}
-            size="small"
-            variant="text"
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            {dateRange} <ArrowDropDownIcon />
-          </Button>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={() => handleClose(dateRange)}
-          >
-            {dates
-              ? dates.map((date) => (
-                  <MenuItem key={date} onClick={() => handleClose(date)}>
-                    {date}
-                  </MenuItem>
-                ))
-              : defaultDates.map((date) => (
-                  <MenuItem key={date} onClick={() => handleClose(date)}>
-                    {date}
-                  </MenuItem>
-                ))}
-          </Menu>
-        </div>
-      }
-      title="Latest Sales"
+      // action={
+      //   <div>
+      //     <Button
+      //       className={classes.headerButton}
+      //       size="small"
+      //       variant="text"
+      //       aria-controls="simple-menu"
+      //       aria-haspopup="true"
+      //       onClick={handleClick}
+      //     >
+      //       {dateRange} <ArrowDropDownIcon />
+      //     </Button>
+      //     <Menu
+      //       id="simple-menu"
+      //       anchorEl={anchorEl}
+      //       keepMounted
+      //       open={Boolean(anchorEl)}
+      //       onClose={() => handleClose(dateRange)}
+      //     >
+      //       {dates
+      //         ? dates.map((date) => (
+      //             <MenuItem key={date} onClick={() => handleClose(date)}>
+      //               {date}
+      //             </MenuItem>
+      //           ))
+      //         : defaultDates.map((date) => (
+      //             <MenuItem key={date} onClick={() => handleClose(date)}>
+      //               {date}
+      //             </MenuItem>
+      //           ))}
+      //     </Menu>
+      //   </div>
+      // }
+      title={title}
     />
   );
 };

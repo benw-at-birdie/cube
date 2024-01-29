@@ -1,23 +1,23 @@
 cubes:
-  - name: users
-    sql_table: PUBLIC_SENSITIVE.USERS
+  - name: caregiver_visits
+    sql_table: PUBLIC.caregiver_visits
     data_source: default
 
     joins: []
 
     dimensions:
-      - name: user_id
-        sql: ID
-        type: string
-        primary_key: true
 
-      - name: user_name
-        sql: USER_NAME
+      - name: visit_id
+        sql: visit_id
         type: string
 
-    measures:
-      - name: count
-        type: count
+      - name: caregiver_id
+        sql: caregiver_id
+        type: string
+      
+      - name: branch_id
+        sql: AGENCY_ID
+        type: string
 
     pre_aggregations:
       # Pre-aggregation definitions go here.

@@ -12,7 +12,9 @@ import TableRow from '@material-ui/core/TableRow';
 import palette from '../theme/palette';
 import moment from 'moment';
 import { BarOptions } from '../helpers/BarOptions.js';
+import numbro from 'numbro';
 const COLORS_SERIES = [palette.secondary.main, palette.primary.light, palette.secondary.light];
+
 
 const TypeToChartComponent = {
   line: ({ resultSet }) => {
@@ -28,9 +30,29 @@ const TypeToChartComponent = {
     const options = {};
     return <Line data={data} options={options} />;
   },
-  bar: ({ resultSet }) => {
+  bar: ({ resultSet, number_format }) => {
+
+    let customBarOptions = {...BarOptions};
+
+    // Modify scales.yAxes.ticks for custom formatting
+    customBarOptions.scales = {
+      ...customBarOptions.scales,
+      yAxes: customBarOptions.scales.yAxes.map(yAxis => ({
+        ...yAxis,
+        ticks: {
+          ...yAxis.ticks,
+          callback: function(value) {
+            console.log('value', value);
+            console.log('number_format', number_format);
+            console.log('numbro(value).format(number_format)', numbro(value).format(number_format));
+            return numbro(value).format(number_format);
+          }
+        }
+      }))
+    };
+
     const data = {
-      labels: resultSet.categories().map((c) => moment(c.x).format('DD/MM/YYYY')),
+      labels: resultSet.categories().map((c) => moment(c.x).format('MMM D')),
       datasets: resultSet.series().map((s, index) => ({
         label: s.title,
         data: s.series.map((r) => r.value),
@@ -38,7 +60,7 @@ const TypeToChartComponent = {
         fill: false,
       })),
     };
-    return <Bar data={data} options={BarOptions} />;
+    return <Bar data={data} options={customBarOptions} />;
   },
   area: ({ resultSet }) => {
     const data = {
@@ -115,10 +137,10 @@ const renderChart = (Component) => ({ resultSet, error, ...props }) =>
   (error && error.toString()) || <CircularProgress color="secondary" />;
 
 const ChartRenderer = ({ vizState = {} }) => {
-  const { query, chartType, ...options } = vizState;
+  const { query, chartType, number_format, ...options } = vizState;
   const component = TypeToMemoChartComponent[chartType];
   const renderProps = useCubeQuery(query);
-  return component && renderChart(component)({ ...options, ...renderProps });
+  return component && renderChart(component)({ number_format, ...options, ...renderProps });
 };
 
 ChartRenderer.propTypes = {
