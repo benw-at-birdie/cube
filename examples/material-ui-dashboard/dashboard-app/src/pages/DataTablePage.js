@@ -18,9 +18,9 @@ const DataTablePage = () => {
   const tabs = ['All', 'Shipped', 'Processing', 'Completed'];
   const [statusFilter, setStatusFilter] = React.useState(0);
   const [startDate, setStartDate] = React.useState(new Date('2019-01-01T00:00:00'));
-  const [finishDate, setFinishDate] = React.useState(new Date('2022-01-01T00:00:00'));
+  const [finishDate, setFinishDate] = React.useState(new Date('2019-12-31T00:00:00'));
   const [priceFilter, setPriceFilter] = React.useState([0, 200]);
-  const [sorting, setSorting] = React.useState(['Orders.createdAt', 'desc']);
+  const [sorting, setSorting] = React.useState(['orders.created_at', 'desc']);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -32,37 +32,26 @@ const DataTablePage = () => {
     },
     timeDimensions: [
       {
-        dimension: 'Orders.createdAt',
+        dimension: 'orders.created_at',
         dateRange: [startDate, finishDate],
         granularity: null,
       },
     ],
     dimensions: [
-      'Users.id',
-      'Orders.id',
-      'Orders.size',
-      'Users.fullName',
-      'Users.city',
-      'Orders.price',
-      'Orders.status',
-      'Orders.createdAt',
+      'users.id',
+      'orders.id',
+      'orders.number',
+      'users.first_name',
+      'users.city',
+      'orders.status',
+      'orders.created_at',
     ],
     filters: [
       {
-        dimension: 'Orders.status',
+        dimension: 'orders.status',
         operator: tabs[statusFilter] !== 'All' ? 'equals' : 'set',
         values: [`${tabs[statusFilter].toLowerCase()}`],
-      },
-      {
-        dimension: 'Orders.price',
-        operator: 'gt',
-        values: [`${priceFilter[0]}`],
-      },
-      {
-        dimension: 'Orders.price',
-        operator: 'lt',
-        values: [`${priceFilter[1]}`],
-      },
+      }
     ],
   };
   const countQuery = {
@@ -71,25 +60,25 @@ const DataTablePage = () => {
     },
     timeDimensions: [
       {
-        dimension: 'Orders.createdAt',
+        dimension: 'orders.created_at',
         dateRange: [startDate, finishDate],
         granularity: null,
       },
     ],
-    measures: ['Orders.count'],
+    measures: ['orders.count'],
     filters: [
       {
-        dimension: 'Orders.status',
+        dimension: 'orders.status',
         operator: tabs[statusFilter] !== 'All' ? 'equals' : 'set',
         values: [`${tabs[statusFilter].toLowerCase()}`],
       },
       {
-        dimension: 'Orders.price',
+        dimension: 'orders.price',
         operator: 'gt',
         values: [`${priceFilter[0]}`],
       },
       {
-        dimension: 'Orders.price',
+        dimension: 'orders.price',
         operator: 'lt',
         values: [`${priceFilter[1]}`],
       },

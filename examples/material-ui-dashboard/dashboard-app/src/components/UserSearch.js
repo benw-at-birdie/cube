@@ -30,16 +30,16 @@ const UserSearch = (props) => {
   const classes = useStyles();
 
   const { resultSet, error, isLoading } = useCubeQuery({
-    measures: ['Users.count'],
+    measures: ['users.count'],
     timeDimensions: [
       {
-        dimension: 'Users.createdAt',
+        dimension: 'users.created_at',
       },
     ],
     order: {
-      'Users.id': 'asc',
+      'users.id': 'asc',
     },
-    dimensions: ['Users.id', 'Users.firstName', 'Users.lastName'],
+    dimensions: ['users.id', 'users.first_name', 'users.last_name'],
     filters: [],
   });
 
@@ -61,8 +61,8 @@ const UserSearch = (props) => {
 
   const options = resultSet.tablePivot().map((item) => {
     return {
-      id: item['Users.id'],
-      text: `${item['Users.id']} - ${item['Users.firstName']} ${item['Users.lastName']}`,
+      id: item['users.id'],
+      text: `${item['users.id']} - ${item['users.first_name']} ${item['users.last_name']}`,
     };
   });
 

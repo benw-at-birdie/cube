@@ -50,7 +50,7 @@ const KPIChart = (props) => {
     ...query,
     timeDimensions: [
       {
-        dimension: `${difference || query.measures[0].split('.')[0]}.createdAt`,
+        dimension: `${difference || query.measures[0].split('.')[0]}.created_at`,
         granularity: null,
         dateRange: 'This year',
       },

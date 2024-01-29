@@ -25,7 +25,7 @@ const BarChart = (props) => {
       {
         dimension: query.timeDimensions[0].dimension,
         granularity: query.timeDimensions[0].granularity,
-        dateRange: `${dateRange}`,
+        dateRange: ["2019-01-01", "2019-12-31"],
       },
     ],
   };

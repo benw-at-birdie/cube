@@ -15,55 +15,55 @@ const useStyles = makeStyles((theme) => ({
 const cards = [
   {
     title: 'ORDERS',
-    query: { measures: ['Orders.count'] },
-    difference: 'Orders',
+    query: { measures: ['orders.count'] },
+    difference: 'orders',
     duration: 1.25,
   },
   {
     title: 'TOTAL USERS',
-    query: { measures: ['Users.count'] },
-    difference: 'Users',
+    query: { measures: ['users.count'] },
+    difference: 'users',
     duration: 1.5,
   },
   {
     title: 'COMPLETED ORDERS',
-    query: { measures: ['Orders.percentOfCompletedOrders'] },
+    query: { measures: ['orders.completed_orders'] },
     progress: true,
     duration: 1.75,
   },
   {
-    title: 'TOTAL PROFIT',
-    query: { measures: ['LineItems.price'] },
+    title: 'AVERAGE ORDER SIZE',
+    query: { measures: ['orders.average_order_size'] },
     duration: 2.25,
   },
 ];
 const barChartQuery = {
-  measures: ['Orders.count'],
+  measures: ['orders.count'],
   timeDimensions: [
     {
-      dimension: 'Orders.createdAt',
-      granularity: 'day',
-      dateRange: 'This week',
+      dimension: 'orders.created_at',
+      granularity: 'week',
+      dateRange: ["2019-01-01", "2019-12-31"],
     },
   ],
-  dimensions: ['Orders.status'],
+  dimensions: ['orders.status'],
   filters: [
     {
-      dimension: 'Orders.status',
+      dimension: 'orders.status',
       operator: 'notEquals',
       values: ['completed'],
     },
   ],
 };
 const doughnutChartQuery = {
-  measures: ['Orders.count'],
+  measures: ['orders.count'],
   timeDimensions: [
     {
-      dimension: 'Orders.createdAt',
+      dimension: 'orders.created_at',
     },
   ],
   filters: [],
-  dimensions: ['Orders.status'],
+  dimensions: ['orders.status'],
 };
 
 const Dashboard = () => {

@@ -38,44 +38,44 @@ const UsersPage = (props) => {
   const classes = useStyles();
   let { id } = useParams();
   const query = {
-    measures: ['Users.count'],
+    measures: ['users.count'],
     timeDimensions: [
       {
-        dimension: 'Users.createdAt',
+        dimension: 'users.created_at',
       },
     ],
     dimensions: [
-      'Users.id',
-      'Products.id',
-      'Users.firstName',
-      'Users.lastName',
-      'Users.gender',
-      'Users.age',
-      'Users.city',
-      'LineItems.itemPrice',
-      'Orders.createdAt',
+      'users.id',
+      'products.id',
+      'users.first_name',
+      'users.last_name',
+      'users.gender',
+      'users.age',
+      'users.city',
+      'line_items.price',
+      'orders.created_at',
     ],
     filters: [
       {
-        dimension: 'Users.id',
+        dimension: 'users.id',
         operator: 'equals',
         values: [`${id}`],
       },
     ],
   };
   const barChartQuery = {
-    measures: ['Orders.count'],
+    measures: ['orders.count'],
     timeDimensions: [
       {
-        dimension: 'Orders.createdAt',
+        dimension: 'orders.created_at',
         granularity: 'month',
         dateRange: 'This week',
       },
     ],
-    dimensions: ['Orders.status'],
+    dimensions: ['orders.status'],
     filters: [
       {
-        dimension: 'Users.id',
+        dimension: 'users.id',
         operator: 'equals',
         values: [id],
       },
@@ -85,10 +85,10 @@ const UsersPage = (props) => {
     {
       title: 'ORDERS',
       query: {
-        measures: ['Orders.count'],
+        measures: ['orders.count'],
         filters: [
           {
-            dimension: 'Users.id',
+            dimension: 'users.id',
             operator: 'equals',
             values: [`${id}`],
           },
@@ -99,10 +99,10 @@ const UsersPage = (props) => {
     {
       title: 'TOTAL SALES',
       query: {
-        measures: ['LineItems.price'],
+        measures: ['line_items.price'],
         filters: [
           {
-            dimension: 'Users.id',
+            dimension: 'users.id',
             operator: 'equals',
             values: [`${id}`],
           },
@@ -135,11 +135,11 @@ const UsersPage = (props) => {
           <Grid item lg={4} sm={6} xl={4} xs={12}>
             <UserSearch />
             <AccountProfile
-              userFirstName={userData['Users.firstName']}
-              userLastName={userData['Users.lastName']}
-              gender={userData['Users.gender']}
-              age={userData['Users.age']}
-              city={userData['Users.city']}
+              userFirstName={userData['users.first_name']}
+              userLastName={userData['users.last_name']}
+              gender={userData['users.gender']}
+              age={userData['users.age']}
+              city={userData['users.city']}
               id={id}
             />
           </Grid>

@@ -17,7 +17,7 @@ const exampleDescription = {
       to learn more.
     </p>`
 };
-createExampleWrapper(exampleDescription);
+// createExampleWrapper(exampleDescription);
 
 ReactDOM.render(
   <React.StrictMode>

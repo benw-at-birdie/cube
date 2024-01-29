@@ -98,31 +98,27 @@ const TableComponent = (props) => {
   const tableHeaders = [
     {
       text: 'Order id',
-      value: 'Orders.id',
+      value: 'orders.id',
     },
     {
       text: 'Orders size',
-      value: 'Orders.size',
+      value: 'orders.number',
     },
     {
       text: 'Full Name',
-      value: 'Users.fullName',
+      value: 'users.fullName',
     },
     {
       text: 'User city',
-      value: 'Users.city',
-    },
-    {
-      text: 'Order price',
-      value: 'Orders.price',
+      value: 'users.city',
     },
     {
       text: 'Status',
-      value: 'Orders.status',
+      value: 'orders.status',
     },
     {
       text: 'Created at',
-      value: 'Orders.createdAt',
+      value: 'orders.created_at',
     },
   ];
   const load = useCubeQuery(query);
@@ -197,27 +193,27 @@ const TableComponent = (props) => {
                     <TableRow
                       className={classes.tableRow}
                       hover
-                      key={obj['Orders.id']}
+                      key={obj['orders.id']}
                     >
-                      <TableCell>{obj['Orders.id']}</TableCell>
-                      <TableCell>{obj['Orders.size']}</TableCell>
+                      <TableCell>{obj['orders.id']}</TableCell>
+                      <TableCell>{obj['orders.number']}</TableCell>
                       <TableCell
                         className={classes.hoverable}
-                        onClick={() => handleClick(`/user/${obj['Users.id']}`)}
+                        onClick={() => handleClick(`/user/${obj['users.id']}`)}
                       >
-                        {obj['Users.fullName']}
+                        {obj['users.fullName']}
                         &nbsp;
                         <Typography className={classes.arrow} variant="body2" component="span">
                           <OpenInNewIcon fontSize="small" />
                         </Typography>
                       </TableCell>
-                      <TableCell>{obj['Users.city']}</TableCell>
-                      <TableCell>{'$ ' + obj['Orders.price']}</TableCell>
+                      <TableCell>{obj['users.city']}</TableCell>
+                      <TableCell>{'$ ' + obj['orders.price']}</TableCell>
                       <TableCell>
-                        <StatusBullet className={classes.status} color={statusColors[obj['Orders.status']]} size="sm" />
-                        {obj['Orders.status']}
+                        <StatusBullet className={classes.status} color={statusColors[obj['orders.status']]} size="sm" />
+                        {obj['orders.status']}
                       </TableCell>
-                      <TableCell>{moment(obj['Orders.createdAt']).format('DD/MM/YYYY')}</TableCell>
+                      <TableCell>{moment(obj['orders.created_at']).format('DD/MM/YYYY')}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -228,7 +224,7 @@ const TableComponent = (props) => {
         <CardActions className={classes.actions}>
           <TablePagination
             component="div"
-            count={parseInt(count.resultSet.tablePivot()[0]['Orders.count'])}
+            count={parseInt(count.resultSet.tablePivot()[0]['orders.count'])}
             onChangePage={handlePageChange}
             onChangeRowsPerPage={handleRowsPerPageChange}
             page={page}

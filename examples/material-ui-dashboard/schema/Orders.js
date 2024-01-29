@@ -67,7 +67,7 @@ cube(`Orders`, {
     },
 
     price: {
-      sql: `${LineItems.price}`,
+      sql: `${line_items.price}`,
       subQuery: true,
       type: 'number'
     }

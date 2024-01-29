@@ -16,7 +16,7 @@ cube(`LineItems`, {
   measures: {
     count: {
       type: `count`,
-      drillMembers: [id, createdAt]
+      drillMembers: [id, created_at]
     },
 
     price: {
