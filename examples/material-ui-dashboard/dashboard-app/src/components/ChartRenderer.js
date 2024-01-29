@@ -42,9 +42,6 @@ const TypeToChartComponent = {
         ticks: {
           ...yAxis.ticks,
           callback: function(value) {
-            console.log('value', value);
-            console.log('number_format', number_format);
-            console.log('numbro(value).format(number_format)', numbro(value).format(number_format));
             return numbro(value).format(number_format);
           }
         }
