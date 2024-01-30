@@ -76,42 +76,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Toolbar = (props) => {
+const Filters = (props) => {
   const {
     className,
-    startDate,
-    setStartDate,
-    finishDate,
-    setFinishDate,
-    priceFilter,
-    setPriceFilter,
-    statusFilter,
-    setStatusFilter,
-    tabs,
+    dateRanges,
+    dateRange,
+    setDateRange,
     ...rest
   } = props;
-  const [tabValue, setTabValue] = React.useState(statusFilter);
-  const [rangeValue, rangeSetValue] = React.useState(priceFilter);
 
   const classes = useStyles();
 
-  const handleChangeTab = (e, value) => {
-    setTabValue(value);
-    setStatusFilter(value);
-  };
-  const handleDateChange = (date) => {
-    setStartDate(date);
-  };
-  const handleDateChangeFinish = (date) => {
-    setFinishDate(date);
-  };
-  const handleChangeRange = (event, newValue) => {
-    rangeSetValue(newValue);
-  };
-  const setRangeFilter = (event, newValue) => {
-    setPriceFilter(newValue);
-  };
-
+  const handleDateRangeChange = (event) => {
+    setDateRange(event.target.value);
+  }
+ 
   const handleClientChange = (event) => {
     // setSelectedClient(event.target.value);
   };
@@ -138,48 +117,22 @@ const Toolbar = (props) => {
   return (
     <div {...rest} className={clsx(classes.root, className)}>
       <Grid container spacing={4}>
-        {/* <Grid item lg={3} sm={6} xl={3} xs={12} m={2}>
-          <div className={classes}>
-            <AntTabs value={tabValue} onChange={handleChangeTab} aria-label="ant example">
-              {tabs.map((item) => (
-                <AntTab key={item} label={item} />
+        <Grid className={classes.select} item xs={3} sm={3} m={3} lg={3} xl={3}>
+          <FormControl>
+            <InputLabel className={classes.select} id="date-range-select-label">Date Range</InputLabel>
+            <Select className={classes.select}
+              labelId="date-range-select-label"
+              id="date-range-select"
+              value={dateRange}
+              onChange={handleDateRangeChange}>
+              {dateRanges.map((range) => (
+                <MenuItem key={range} value={range.id}>
+                  {range.range}
+                </MenuItem>
               ))}
-            </AntTabs>
-            <Typography className={classes.padding} />
-          </div>
-        </Grid> */}
-        <Grid className={classes.date} item xs={3} sm={3} m={3} lg={3} xl={3}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container justify="space-around">
-              <KeyboardDatePicker
-                id="date-picker-dialog"
-                label={<span style={{ opacity: 0.6 }}>Start Date</span>}
-                format="MM/dd/yyyy"
-                value={startDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </Grid>
-          </MuiPickersUtilsProvider>
-        </Grid>
-        <Grid className={classes.date} item xs={3} sm={3} m={3} lg={3} xl={3}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container justify="space-around">
-              <KeyboardDatePicker
-                id="date-picker-dialog-finish"
-                label={<span style={{ opacity: 0.6 }}>Finish Date</span>}
-                format="MM/dd/yyyy"
-                value={finishDate}
-                onChange={handleDateChangeFinish}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </Grid>
-          </MuiPickersUtilsProvider>
-        </Grid>
+            </Select>
+          </FormControl>
+        </Grid>        
         <Grid className={classes.select} item xs={3} sm={3} m={3} lg={3} xl={3}>
           <FormControl>
             <InputLabel className={classes.select} id="client-select-label">Client Name</InputLabel>
@@ -214,25 +167,13 @@ const Toolbar = (props) => {
             </Select>
           </FormControl>
         </Grid>
-        {/* <Grid className={classes.range} item lg={3} sm={6} xl={3} xs={12} m={2}>
-          <Typography id="range-slider">Order price range</Typography>
-          <Slider
-            value={rangeValue}
-            onChange={handleChangeRange}
-            onChangeCommitted={setRangeFilter}
-            aria-labelledby="range-slider"
-            valueLabelDisplay="auto"
-            min={0}
-            max={2000}
-          />
-        </Grid> */}
       </Grid>
     </div>
   );
 };
 
-Toolbar.propTypes = {
+Filters.propTypes = {
   className: PropTypes.string,
 };
 
-export default Toolbar;
+export default Filters;

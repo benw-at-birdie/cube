@@ -30,7 +30,7 @@ const TypeToChartComponent = {
     const options = {};
     return <Line data={data} options={options} />;
   },
-  bar: ({ resultSet, number_format }) => {
+  bar: ({ resultSet, numberFormat, dateFormat }) => {
 
     let customBarOptions = {...BarOptions};
 
@@ -42,14 +42,14 @@ const TypeToChartComponent = {
         ticks: {
           ...yAxis.ticks,
           callback: function(value) {
-            return numbro(value).format(number_format);
+            return numbro(value).format(numberFormat);
           }
         }
       }))
     };
 
     const data = {
-      labels: resultSet.categories().map((c) => moment(c.x).format('MMM D')),
+      labels: resultSet.categories().map((c) => moment(c.x).format(dateFormat)),
       datasets: resultSet.series().map((s, index) => ({
         label: s.title,
         data: s.series.map((r) => r.value),
@@ -134,10 +134,10 @@ const renderChart = (Component) => ({ resultSet, error, ...props }) =>
   (error && error.toString()) || <CircularProgress color="secondary" />;
 
 const ChartRenderer = ({ vizState = {} }) => {
-  const { query, chartType, number_format, ...options } = vizState;
+  const { query, chartType, numberFormat, dateFormat, ...options } = vizState;
   const component = TypeToMemoChartComponent[chartType];
   const renderProps = useCubeQuery(query);
-  return component && renderChart(component)({ number_format, ...options, ...renderProps });
+  return component && renderChart(component)({ numberFormat, dateFormat, ...options, ...renderProps });
 };
 
 ChartRenderer.propTypes = {
