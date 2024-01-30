@@ -27,8 +27,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Dashboard = () => {
-  // const branch_id = '6a597bbe-fdd4-4b90-bbff-a38e28736b96'; // (Demo) Enterprise Demo Hub
-  const branch_id = '92ddf419-5521-4cdb-a646-9bbc705a32a8'; // Alina - Bath
+  const branch_id = '6a597bbe-fdd4-4b90-bbff-a38e28736b96'; // (Demo) Enterprise Demo Hub
+  // const branch_id = '92ddf419-5521-4cdb-a646-9bbc705a32a8'; // Alina - Bath
+
   const classes = useStyles();
 
   const dateRanges = [
@@ -37,6 +38,40 @@ const Dashboard = () => {
     { id: 2, range: 'Last 12 months', granularity: 'month', dateFormat: 'MMM YY'}
   ];
   const [selectedDateRange, setDateRange] = React.useState(0);
+  const [selectedClient, setSelectedClient] = React.useState('All clients');
+  const [selectedCarer, setSelectedCarer] = React.useState('All carers');
+
+
+  const currentFilters = () => {
+    const filters = [
+      {
+        "member": "branches.branch_id",
+        "operator": "equals",
+        "values": [`${branch_id}`]
+      }
+      // ... other always-present filters
+    ];
+
+    // Add the client_id filter only if selectedClient is set and not null
+    if (selectedClient != 'All clients') {
+      filters.push({
+        "member": "clients.client_id",
+        "operator": "equals",
+        "values": [`${selectedClient}`]
+      });
+    }
+
+    // Add the carer_id filter only if selectedCarer is set and not null
+    if (selectedCarer != 'All carers') {
+      filters.push({
+        "member": "users.user_id",
+        "operator": "equals",
+        "values": [`${selectedCarer}`]
+      });
+    }
+
+    return filters;
+  };
 
   return (
     <div className={classes.root}>
@@ -46,8 +81,13 @@ const Dashboard = () => {
       {/* DASHBOARD FILTERS */}
       <Filters
         dateRanges={dateRanges}
-        dateRange={selectedDateRange}
+        selectedDateRange={selectedDateRange}
         setDateRange={setDateRange}
+        selectedClient={selectedClient}
+        setSelectedClient={setSelectedClient}
+        selectedCarer={selectedCarer}
+        setSelectedCarer={setSelectedCarer}
+        branch_id={branch_id}
       />
 
       <h2>Call Monitoring</h2>
@@ -72,15 +112,7 @@ const Dashboard = () => {
                   "dateRange": `${dateRanges[selectedDateRange].range}`
                 }
               ],
-              "filters": [
-                {
-                  "member": "branches.branch_id",
-                  "operator": "equals",
-                  "values": [
-                    `${branch_id}`
-                  ]
-                }
-              ]
+              "filters": currentFilters()
             }}
           />
         </Grid>
@@ -102,15 +134,7 @@ const Dashboard = () => {
                   "dateRange": `${dateRanges[selectedDateRange].range}`
                 }
               ],
-              "filters": [
-                {
-                  "member": "branches.branch_id",
-                  "operator": "equals",
-                  "values": [
-                    `${branch_id}`
-                  ]
-                }
-              ]
+              "filters": currentFilters()
             }}
           />
         </Grid>

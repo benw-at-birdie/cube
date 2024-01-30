@@ -3,7 +3,10 @@ cubes:
     sql_table: PUBLIC_SENSITIVE.USERS
     data_source: default
 
-    joins: []
+    joins:
+      - name: users_to_branch_role_mapping
+        sql: "{CUBE.user_id} = {users_to_branch_role_mapping.user_id}"
+        relationship: one_to_many
 
     dimensions:
       - name: user_id

@@ -1,25 +1,28 @@
 cubes:
-  - name: caregiver_visits
-    sql_table: PUBLIC.caregiver_visits
+  - name: users_to_branch_role_mapping
+    sql_table: PUBLIC.USERS_TO_AGENCY_ROLE_MAPPING
     data_source: default
 
     joins:
+      - name: branches
+        sql: "{CUBE.branch_id} = {branches.branch_id}"
+        relationship: many_to_one
+
       - name: users
-        sql: "{CUBE.caregiver_id} = {users.user_id}"
+        sql: "{CUBE.user_id} = {users.user_id}"
         relationship: many_to_one
 
     dimensions:
-
-      - name: visit_id
-        sql: VISIT_ID
+      - name: user_id
+        sql: USER_ID
         type: string
 
-      - name: caregiver_id
-        sql: CAREGIVER_ID
-        type: string
-      
       - name: branch_id
         sql: AGENCY_ID
+        type: string
+
+      - name: role
+        sql: ROLE
         type: string
 
     pre_aggregations:

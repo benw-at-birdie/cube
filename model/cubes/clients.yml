@@ -5,7 +5,7 @@ cubes:
 
     joins:
       - name: branches
-        sql: "{CUBE}.branch_id = {branches}.branch_id"
+        sql: "{CUBE.branch_id} = {branches.branch_id}"
         relationship: many_to_one
 
     dimensions:
@@ -18,7 +18,7 @@ cubes:
         sql: IS_ACTIVATED
         type: boolean
 
-      - name: care_recipient_name
+      - name: client_name
         sql: CARE_RECIPIENT_NAME
         type: string
 

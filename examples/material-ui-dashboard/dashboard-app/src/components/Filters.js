@@ -13,6 +13,7 @@ import Slider from '@material-ui/core/Slider';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
+import DimensionFilter from './DimensionFilter';
 
 const AntTabs = withStyles({
   root: {
@@ -80,8 +81,13 @@ const Filters = (props) => {
   const {
     className,
     dateRanges,
-    dateRange,
+    selectedDateRange,
     setDateRange,
+    selectedClient,
+    setSelectedClient,
+    selectedCarer,
+    setSelectedCarer,
+    branch_id,
     ...rest
   } = props;
 
@@ -90,14 +96,6 @@ const Filters = (props) => {
   const handleDateRangeChange = (event) => {
     setDateRange(event.target.value);
   }
- 
-  const handleClientChange = (event) => {
-    // setSelectedClient(event.target.value);
-  };
-
-  const handleCarerChange = (event) => {
-    // setSelectedClient(event.target.value);
-  };
 
   // Dummy data for clients
   const clients = [
@@ -117,13 +115,13 @@ const Filters = (props) => {
   return (
     <div {...rest} className={clsx(classes.root, className)}>
       <Grid container spacing={4}>
-        <Grid className={classes.select} item xs={3} sm={3} m={3} lg={3} xl={3}>
+        <Grid className={classes.select} item xs={12} sm={3} m={3} lg={3} xl={3}>
           <FormControl>
             <InputLabel className={classes.select} id="date-range-select-label">Date Range</InputLabel>
             <Select className={classes.select}
               labelId="date-range-select-label"
               id="date-range-select"
-              value={dateRange}
+              value={selectedDateRange}
               onChange={handleDateRangeChange}>
               {dateRanges.map((range) => (
                 <MenuItem key={range} value={range.id}>
@@ -133,39 +131,58 @@ const Filters = (props) => {
             </Select>
           </FormControl>
         </Grid>        
-        <Grid className={classes.select} item xs={3} sm={3} m={3} lg={3} xl={3}>
-          <FormControl>
-            <InputLabel className={classes.select} id="client-select-label">Client Name</InputLabel>
-            <Select className={classes.select}
-              labelId="client-select-label"
-              id="client-select"
-              // value={selectedClient}
-              onChange={handleClientChange}
-            >
-              {clients.map((client) => (
-                <MenuItem key={client.id} value={client.id}>
-                  {client.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+        <Grid className={classes.select} item xs={12} sm={3} m={3} lg={3} xl={3}>
+          <DimensionFilter
+            label='Client Name'
+            defaultValue='All clients'
+            query={{
+              dimensions: [
+                "clients.client_id",
+                "clients.client_name"
+              ],
+              order: {
+                "clients.client_name": "asc"
+              },
+              "filters": [
+                {
+                  "member": "branches.branch_id",
+                  "operator": "equals",
+                  "values": [`${branch_id}`]
+                }
+              ]
+            }}
+            selectedValue={selectedClient}
+            setSelectedValue={setSelectedClient}
+          />
         </Grid>
-        <Grid className={classes.select} item xs={3} sm={3} m={3} lg={3} xl={3}>
-          <FormControl>
-            <InputLabel className={classes.select} id="carer-select-label">Carer Name</InputLabel>
-            <Select className={classes.select}
-              labelId="carer-select-label"
-              id="carer-select"
-              // value={selectedCarer}
-              onChange={handleCarerChange}
-            >
-              {carers.map((carer) => (
-                <MenuItem key={carer.id} value={carer.id}>
-                  {carer.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+        <Grid className={classes.select} item xs={12} sm={3} m={3} lg={3} xl={3}>
+          <DimensionFilter
+            label='Carer Name'
+            defaultValue={'All carers'}
+            query={{
+              dimensions: [
+                "users.user_id",
+                "users.user_name"
+              ],
+              order: {
+                "users.user_name": "asc"
+              },
+              "filters": [
+                {
+                  "member": "branches.branch_id",
+                  "operator": "equals",
+                  "values": [`${branch_id}`]
+                },
+                {
+                  "member": "users_to_branch_role_mapping.role",
+                  "operator": "equals",
+                  "values": ["caregiver", "care_manager"]
+                }
+              ]
+            }}
+            selectedValue={selectedCarer}
+            setSelectedValue={setSelectedCarer}
+          />
         </Grid>
       </Grid>
     </div>

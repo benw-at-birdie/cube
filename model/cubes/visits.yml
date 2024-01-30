@@ -19,10 +19,6 @@ cubes:
           and {branches.branch_id} = {caregiver_visits.branch_id}
         relationship: one_to_many
 
-      - name: users
-        sql: "{caregiver_visits.caregiver_id} = {users.user_id}"
-        relationship: many_to_one
-
     dimensions:
 
       - name: visit_id
