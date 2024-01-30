@@ -24,6 +24,7 @@ const DimensionFilter = ({ label, query, defaultValue, selectedValue, setSelecte
     },
     select: {
       marginTop: 3,
+      marginRight: 25,
       minWidth: 200,
     },
     date: {

@@ -67,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
   select: {
     marginTop: 3,
+    marginRight: 25,
     minWidth: 200,
   },
   date: {
@@ -74,8 +75,11 @@ const useStyles = makeStyles((theme) => ({
   },
   range: {
     marginTop: 13,
-  },
+  }
 }));
+
+
+
 
 const Filters = (props) => {
   const {
@@ -114,8 +118,7 @@ const Filters = (props) => {
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>
-      <Grid container spacing={4}>
-        <Grid className={classes.select} item xs={12} sm={3} m={3} lg={3} xl={3}>
+
           <FormControl>
             <InputLabel className={classes.select} id="date-range-select-label">Date Range</InputLabel>
             <Select className={classes.select}
@@ -130,8 +133,7 @@ const Filters = (props) => {
               ))}
             </Select>
           </FormControl>
-        </Grid>        
-        <Grid className={classes.select} item xs={12} sm={3} m={3} lg={3} xl={3}>
+
           <DimensionFilter
             label='Client Name'
             defaultValue='All clients'
@@ -154,8 +156,7 @@ const Filters = (props) => {
             selectedValue={selectedClient}
             setSelectedValue={setSelectedClient}
           />
-        </Grid>
-        <Grid className={classes.select} item xs={12} sm={3} m={3} lg={3} xl={3}>
+
           <DimensionFilter
             label='Carer Name'
             defaultValue={'All carers'}
@@ -183,8 +184,7 @@ const Filters = (props) => {
             selectedValue={selectedCarer}
             setSelectedValue={setSelectedCarer}
           />
-        </Grid>
-      </Grid>
+
     </div>
   );
 };
