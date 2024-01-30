@@ -3,3 +3,5 @@
 # Parcel-related
 .parcel-cache
 dist/
+
+.env
