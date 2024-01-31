@@ -8,24 +8,31 @@ import { makeStyles } from '@material-ui/styles';
 import { List, ListItem, Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    margin: 0
+  },
   item: {
     display: 'flex',
     paddingTop: 0,
     paddingBottom: 0,
+    margin: 0
   },
   button: {
-    color: '#A1A1B5',
-    padding: '10px 8px',
+    color: '#888',
+    padding: '10px 16px',
+    marginBottom: 4,
+    marginRight: 4,
     justifyContent: 'flex-start',
     textTransform: 'none',
     letterSpacing: 0,
-    width: '100%',
+    width: '92%',
     fontSize: 14,
     fontWeight: 500,
     '&:hover': {
-      color: theme.palette.primary.main,
+      color: 'rgb(2, 26, 61)',
+      backgroundColor: 'rgb(237, 241, 250)'
     },
+    fontFamily: "Circular-Std, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\""
   },
   icon: {
     color: theme.palette.icon,
@@ -36,11 +43,15 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   active: {
-    color: theme.palette.primary.main,
+    color: 'rgb(2, 26, 61)',
     fontWeight: theme.typography.fontWeightMedium,
     '& $icon': {
-      color: theme.palette.primary.main,
+      color: 'rgb(2, 26, 61)'
     },
+    backgroundColor: 'rgb(237, 241, 250)',
+    borderLeftColor: 'rgb(3, 45, 101)',
+    borderLeftWidth: 4,
+    borderLeftStyle: 'solid',
   },
 }));
 
@@ -56,7 +67,7 @@ const SidebarNav = (props) => {
   const classes = useStyles();
 
   return (
-    <List {...rest} className={clsx(classes.root, className)}>
+    <List {...rest} style= {{ margin: 0}}>
       {pages.map((page) => (
         <ListItem className={classes.item} disableGutters key={page.title}>
           <Button
@@ -65,7 +76,7 @@ const SidebarNav = (props) => {
             component={CustomRouterLink}
             to={page.href}
           >
-            <div className={classes.icon}>{page.icon}</div>
+            {/* <div className={classes.icon}>{page.icon}</div> */}
             {page.title}
           </Button>
         </ListItem>

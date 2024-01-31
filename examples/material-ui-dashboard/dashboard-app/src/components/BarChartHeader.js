@@ -10,6 +10,9 @@ const useStyles = makeStyles(() => ({
   headerButton: {
     letterSpacing: '0.4px',
   },
+  header: {
+    fontFamily: "Circular-Std"
+  }
 }));
 
 const BarChartHeader = (props) => {
@@ -26,7 +29,7 @@ const BarChartHeader = (props) => {
     setAnchorEl(null);
   };
   return (
-    <CardHeader
+    <CardHeader style={{fontFamily: "Circular-Std"}}
       // action={
       //   <div>
       //     <Button
@@ -61,7 +64,8 @@ const BarChartHeader = (props) => {
       //   </div>
       // }
       title={title}
-    />
+    >
+    </CardHeader>
   );
 };
 

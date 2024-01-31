@@ -8,7 +8,7 @@ import { Sidebar } from './components';
 
 const useStyles = makeStyles(() => ({
   root: {
-    backgroundColor: palette.primary.light,
+    backgroundColor: 'rgb(248, 250, 255)',
     position: 'relative',
   },
   shiftContent: {
@@ -23,7 +23,7 @@ const Main = (props) => {
   const isDesktop = true;
 
   return (
-    <div
+    <div style={{ height: '100%' }}
       className={clsx({
         [classes.root]: true,
         [classes.shiftContent]: isDesktop,

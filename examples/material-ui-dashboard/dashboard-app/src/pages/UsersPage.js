@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 import { useCubeQuery } from '@cubejs-client/react';
 import { Grid } from '@material-ui/core';
-import AccountProfile from '../components/AccountProfile';
 import BarChart from '../components/BarChart';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import UserSearch from '../components/UserSearch';
@@ -134,14 +133,6 @@ const UsersPage = (props) => {
         <Grid container spacing={4}>
           <Grid item lg={4} sm={6} xl={4} xs={12}>
             <UserSearch />
-            <AccountProfile
-              userFirstName={userData['users.first_name']}
-              userLastName={userData['users.last_name']}
-              gender={userData['users.gender']}
-              age={userData['users.age']}
-              city={userData['users.city']}
-              id={id}
-            />
           </Grid>
           <Grid item lg={8} sm={6} xl={4} xs={12}>
             <div className={classes.row}>

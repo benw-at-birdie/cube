@@ -65,10 +65,34 @@ const useStyles = makeStyles((theme) => ({
   searchInput: {
     marginRight: theme.spacing(1),
   },
+  selectTitle: {
+    fontFamily: "Circular-Std",
+    fontSize: 18,
+    fontWeight: 500,
+    marginLeft: 3
+  },
   select: {
-    marginTop: 3,
+    marginTop: 30,
     marginRight: 25,
     minWidth: 200,
+    backgroundColor: theme.palette.white,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: 'rgb(208, 214, 225)',
+    borderRadius: 6,
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingTop: '4px',
+    paddingBottom: '4px',
+    fontWeight: 400,
+    '&:before': {
+      borderBottom: 'none',
+    },
+    '&:after': {
+      borderBottom: 'none',
+    },
+    fontFamily: "Circular-Std",
+    fontSize: 16
   },
   date: {
     marginTop: 3,
@@ -119,13 +143,14 @@ const Filters = (props) => {
   return (
     <div {...rest} className={clsx(classes.root, className)}>
 
-          <FormControl>
-            <InputLabel className={classes.select} id="date-range-select-label">Date Range</InputLabel>
+          <FormControl style={{borderBottom: 'none'}}>
+            <InputLabel className={classes.selectTitle} id="date-range-select-label">Date Range</InputLabel>
             <Select className={classes.select}
               labelId="date-range-select-label"
               id="date-range-select"
               value={selectedDateRange}
-              onChange={handleDateRangeChange}>
+              onChange={handleDateRangeChange}
+              style={{marginTop: 25}}>
               {dateRanges.map((range) => (
                 <MenuItem key={range} value={range.id}>
                   {range.range}

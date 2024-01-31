@@ -4,25 +4,28 @@ import { makeStyles } from '@material-ui/styles';
 
 import BarChart from '../components/BarChart.js';
 import Filters from '../components/Filters.js';
+// import Typography from '../theme/typography.js';
+import Typography from '@material-ui/core/Typography';
+import '../fonts.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(4),
+    
   },
-  '@global': {
-    h1: {
-      marginBottom: theme.spacing(2),
-    },
-    h2: {
-      textAlign: 'center', // Center align text for h2
-      margin: theme.spacing(6, 0, 1),
-    },
-    h3: {
-      textAlign: 'center', // Center align text for h2
-      margin: theme.spacing(0, 0, 4),
-      fontSize: '0.9rem',
-    },
-  }
+  sectionHeader: {
+    marginTop: theme.spacing(6),
+    marginBottom: theme.spacing(3),
+    fontWeight: 100,
+    fontSize: 22,
+    fontFamily: "Circular-Std"
+  },
+  sectionSubheader: {
+    marginTop: theme.spacing(0),
+    marginLeft: '3px',
+    marginBottom: theme.spacing(2),
+    fontFamily: "Circular-Std"
+  },
 }));
 
 
@@ -74,9 +77,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className={classes.root}>
-
-      <h1>Care Deliver Trends</h1>
+      <div className={classes.root}>
 
       {/* DASHBOARD FILTERS */}
       <Filters
@@ -90,8 +91,9 @@ const Dashboard = () => {
         branch_id={branch_id}
       />
 
-      <h2>Call Monitoring</h2>
-      <h3>Visits & hours delivered.</h3>
+      <Typography variant="h4" className={classes.sectionHeader}>
+          Visits & hours delivered
+      </Typography>
 
       <Grid container spacing={4}>
 
@@ -139,7 +141,58 @@ const Dashboard = () => {
           />
         </Grid>
 
+        {/* REPORTED VISITS TREND */}
+        <Grid item xs={3} sm={6} lg={6} xl={6} >
+          <BarChart
+            title="Reported Visits"
+            numberFormat="#,##0"
+            dateFormat={dateRanges[selectedDateRange].dateFormat}
+            query={{
+              "measures": [
+                "visits.reported_visits"
+              ],
+              "timeDimensions": [
+                {
+                  "dimension": "visits.visit_date",
+                  "granularity": `${dateRanges[selectedDateRange].granularity}`,
+                  "dateRange": `${dateRanges[selectedDateRange].range}`
+                }
+              ],
+              "filters": currentFilters()
+            }}
+          />
+        </Grid>
+
+        {/* PERCENT SCHEDULED VISITS COMPLETED */}
+        <Grid item xs={3} sm={6} lg={6} xl={6} >
+          <BarChart
+            title="% of Scheduled Visits with Report"
+            numberFormat="0.0%"
+            dateFormat={dateRanges[selectedDateRange].dateFormat}
+            query={{
+              "measures": [
+                "visits.percentage_of_scheduled_visits_reported"
+              ],
+              "timeDimensions": [
+                {
+                  "dimension": "visits.visit_date",
+                  "granularity": `${dateRanges[selectedDateRange].granularity}`,
+                  "dateRange": `${dateRanges[selectedDateRange].range}`
+                }
+              ],
+              "filters": currentFilters()
+            }}
+          />
+        </Grid>
+
       </Grid>
+
+      <Typography variant="h3" className={classes.sectionHeader}>
+        Medication Monitoring
+      </Typography>
+      <Typography variant="p" className={classes.sectionHeader}>
+        ...
+      </Typography>
     </div>
   );
 };

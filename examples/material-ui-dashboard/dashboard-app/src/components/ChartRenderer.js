@@ -13,8 +13,19 @@ import palette from '../theme/palette';
 import moment from 'moment';
 import { BarOptions } from '../helpers/BarOptions.js';
 import numbro from 'numbro';
-const COLORS_SERIES = [palette.secondary.main, palette.primary.light, palette.secondary.light];
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+const COLORS_SERIES = [palette.primary.main, palette.primary.light, palette.secondary.light];
 
+const useStyles = makeStyles((theme) => ({
+  palette: {
+    primary: {
+      main: 'rgb(173, 187, 219)',
+    },
+    secondary: {
+      main: 'rgb(221, 225, 231)',
+    }
+  }
+}));
 
 const TypeToChartComponent = {
   line: ({ resultSet }) => {
@@ -131,7 +142,7 @@ const TypeToMemoChartComponent = Object.keys(TypeToChartComponent)
 
 const renderChart = (Component) => ({ resultSet, error, ...props }) =>
   (resultSet && <Component resultSet={resultSet} {...props} />) ||
-  (error && error.toString()) || <CircularProgress color="secondary" />;
+  (error && error.toString()) || <CircularProgress color='secondary' />;
 
 const ChartRenderer = ({ vizState = {} }) => {
   const { query, chartType, numberFormat, dateFormat, ...options } = vizState;

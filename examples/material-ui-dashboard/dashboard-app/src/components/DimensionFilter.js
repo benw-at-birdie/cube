@@ -6,7 +6,9 @@ import { makeStyles } from '@material-ui/styles';
 const DimensionFilter = ({ label, query, defaultValue, selectedValue, setSelectedValue }) => {
 
   const useStyles = makeStyles((theme) => ({
-    root: {},
+    root: {
+      backgroundColor: theme.palette.white,
+    },
     row: {
       marginTop: theme.spacing(1),
     },
@@ -22,10 +24,34 @@ const DimensionFilter = ({ label, query, defaultValue, selectedValue, setSelecte
     searchInput: {
       marginRight: theme.spacing(1),
     },
+    selectTitle: {
+      fontFamily: "Circular-Std",
+      fontSize: 18,
+      fontWeight: 500,
+      marginLeft: 3
+    },
     select: {
-      marginTop: 3,
+      marginTop: 30,
       marginRight: 25,
       minWidth: 200,
+      backgroundColor: theme.palette.white,
+      borderStyle: 'solid',
+      borderWidth: 1,
+      borderColor: 'rgb(208, 214, 225)',
+      borderRadius: 6,
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
+      paddingTop: '4px',
+      paddingBottom: '4px',
+      fontWeight: 300,
+      '&:before': {
+        borderBottom: 'none',
+      },
+      '&:after': {
+        borderBottom: 'none',
+      },
+      fontFamily: "Circular-Std",
+      fontSize: 16
     },
     date: {
       marginTop: 3,
@@ -58,8 +84,8 @@ const DimensionFilter = ({ label, query, defaultValue, selectedValue, setSelecte
   }, [resultSet, error, query]);
 
   return (
-    <FormControl>
-      <InputLabel className={classes.select} id="dropdown-select-label">
+    <FormControl style={{borderNone: 'none'}}>
+      <InputLabel className={classes.selectTitle} id="dropdown-select-label">
         {label}
       </InputLabel>
       <Select
@@ -68,6 +94,7 @@ const DimensionFilter = ({ label, query, defaultValue, selectedValue, setSelecte
         id="dropdown-select"
         value={selectedValue}
         onChange={handleSelectionChange}
+        style={{marginTop: 25}}
       >
         {/* Always show the "All" option */}
         <MenuItem key="all" value={defaultValue}>
