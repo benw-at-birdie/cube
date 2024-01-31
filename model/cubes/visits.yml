@@ -46,6 +46,13 @@ cubes:
         sql: VISIT_COMPLETED = 1
         type: boolean
 
+      - name: visit_cancelled
+        sql: |
+          case when VISIT_CANCELLED = 1 then True
+          when VISIT_CANCELLED = 0 then False
+          else null end
+        type: boolean
+
     measures:
       - name: count
         type: count
@@ -54,7 +61,7 @@ cubes:
         type: count_distinct
         sql: VISIT_ID
         filters:
-          - sql: VISIT_SCHEDULED = 1
+          - sql: VISIT_SCHEDULED = 1 and coalesce({CUBE.visit_cancelled}, False) = False
 
       - name: reported_visits
         type: count_distinct
@@ -65,13 +72,40 @@ cubes:
       - name: scheduled_visits_reported_count
         type: count
         filters:
-          - sql: VISIT_SCHEDULED = 1 and VISIT_COMPLETED = 1
+          - sql: VISIT_SCHEDULED = 1 and VISIT_COMPLETED = 1 and coalesce({CUBE.visit_cancelled}, False) = False
 
       - name: percentage_of_scheduled_visits_reported
         type: number
-        format: percent
         sql: |
-          {CUBE.scheduled_visits_reported_count} / {CUBE.scheduled_visits}
+          {CUBE.scheduled_visits_reported_count} / nullif({CUBE.scheduled_visits}, 0)
+
+      - name: reported_visits_starting_within_15_mins_of_schedule
+        type: count_distinct
+        sql: VISIT_ID
+        filters:
+          - sql: VISIT_COMPLETED = 1 AND STARTED_WITHIN_15MINS_OF_SCHEDULE = 1
+
+      - name: percentage_of_reported_visits_starting_within_15_mins
+        type: number
+        sql: |
+          {CUBE.reported_visits_starting_within_15_mins_of_schedule} * 1.0 / nullif({CUBE.scheduled_visits_reported_count}, 0)
+
+      - name: total_reported_visit_hours
+        type: sum
+        sql: REPORTED_DURATION_MINS / 60
+        filters:
+          - sql: VISIT_COMPLETED = 1
+
+      - name: total_scheduled_visit_hours
+        type: sum
+        sql: SCHEDULED_DURATION_MINS / 60
+        filters:
+          - sql: VISIT_SCHEDULED = 1 and coalesce(VISIT_CANCELLED, False) = False
+
+      - name: percentage_of_scheduled_hours_delivered
+        type: number
+        sql: |
+          {CUBE.total_reported_visit_hours} * 1.0 / nullif({CUBE.total_scheduled_visit_hours}, 0)
 
     pre_aggregations:
       # Pre-aggregation definitions go here.

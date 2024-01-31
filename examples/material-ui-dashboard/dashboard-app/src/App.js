@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: 32,
     backgroundColor: 'rgb(248, 250, 255)',
+    height: '100%',
   },
 }));
 

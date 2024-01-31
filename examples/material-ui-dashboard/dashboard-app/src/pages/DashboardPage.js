@@ -11,6 +11,7 @@ import '../fonts.css';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(4),
+    height: '100%',
     
   },
   sectionHeader: {
@@ -30,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Dashboard = () => {
-  const branch_id = '6a597bbe-fdd4-4b90-bbff-a38e28736b96'; // (Demo) Enterprise Demo Hub
-  // const branch_id = '92ddf419-5521-4cdb-a646-9bbc705a32a8'; // Alina - Bath
+  // const branch_id = '6a597bbe-fdd4-4b90-bbff-a38e28736b96'; // (Demo) Enterprise Demo Hub
+  const branch_id = '92ddf419-5521-4cdb-a646-9bbc705a32a8'; // Alina - Bath
 
   const classes = useStyles();
 
@@ -100,7 +101,7 @@ const Dashboard = () => {
         {/* REPORTED VISITS TREND */}
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
-            title="Reported Visits"
+            title="Reported visits"
             numberFormat="#,##0"
             dateFormat={dateRanges[selectedDateRange].dateFormat}
             query={{
@@ -122,7 +123,7 @@ const Dashboard = () => {
         {/* PERCENT SCHEDULED VISITS COMPLETED */}
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
-            title="% of Scheduled Visits with Report"
+            title="Percentage of scheduled visits with report"
             numberFormat="0.0%"
             dateFormat={dateRanges[selectedDateRange].dateFormat}
             query={{
@@ -141,15 +142,15 @@ const Dashboard = () => {
           />
         </Grid>
 
-        {/* REPORTED VISITS TREND */}
+        {/* HOURS DELIVERED */}
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
-            title="Reported Visits"
+            title="Hours delivered"
             numberFormat="#,##0"
             dateFormat={dateRanges[selectedDateRange].dateFormat}
             query={{
               "measures": [
-                "visits.reported_visits"
+                "visits.total_reported_visit_hours"
               ],
               "timeDimensions": [
                 {
@@ -163,15 +164,15 @@ const Dashboard = () => {
           />
         </Grid>
 
-        {/* PERCENT SCHEDULED VISITS COMPLETED */}
+        {/* PERCENT OF SCHEDULED HOURS DELIVERED*/}
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
-            title="% of Scheduled Visits with Report"
+            title="Percentage of scheduled hours delivered"
             numberFormat="0.0%"
             dateFormat={dateRanges[selectedDateRange].dateFormat}
             query={{
               "measures": [
-                "visits.percentage_of_scheduled_visits_reported"
+                "visits.percentage_of_scheduled_hours_delivered"
               ],
               "timeDimensions": [
                 {
@@ -188,7 +189,43 @@ const Dashboard = () => {
       </Grid>
 
       <Typography variant="h3" className={classes.sectionHeader}>
-        Medication Monitoring
+        Punctuality
+      </Typography>
+      
+      <Grid container spacing={4}>
+
+        {/* REPORTED VISITS TREND */}
+        <Grid item xs={3} sm={6} lg={6} xl={6} >
+          <BarChart
+            title="Percentage of visits starting within 15 mins"
+            numberFormat="0.0%"
+            dateFormat={dateRanges[selectedDateRange].dateFormat}
+            query={{
+              "measures": [
+                "visits.percentage_of_reported_visits_starting_within_15_mins"
+              ],
+              "timeDimensions": [
+                {
+                  "dimension": "visits.visit_date",
+                  "granularity": `${dateRanges[selectedDateRange].granularity}`,
+                  "dateRange": `${dateRanges[selectedDateRange].range}`
+                }
+              ],
+              "filters": currentFilters()
+            }}
+          />
+        </Grid>
+      </Grid>
+
+      <Typography variant="h3" className={classes.sectionHeader}>
+        Care tasks and observations
+      </Typography>
+      <Typography variant="p" className={classes.sectionHeader}>
+        ...
+      </Typography>
+
+      <Typography variant="h3" className={classes.sectionHeader}>
+        Medications
       </Typography>
       <Typography variant="p" className={classes.sectionHeader}>
         ...

@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     width: 230,
     position: "absolute",
     top: 0,
+    height: '100%',
   },
   root: {
     backgroundColor: theme.palette.white,
