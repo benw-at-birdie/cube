@@ -206,7 +206,7 @@ const Dashboard = () => {
       
       <Grid container spacing={4}>
 
-        {/* REPORTED VISITS TREND */}
+        {/* PERCENTAGE OF VISITS WITHIN 15 MINS */}
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
             title={t('percentageOfVisitsStartingWithin15Mins')}
