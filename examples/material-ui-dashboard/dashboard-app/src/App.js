@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom'; // Ensure you've installed react-router-dom
+import { useTranslation } from 'react-i18next';
+import './i18n'; // Importing the i18n config
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import cubejs from '@cubejs-client/core';
 import { CubeProvider } from '@cubejs-client/react';
@@ -22,6 +25,19 @@ const useStyles = makeStyles((theme) => ({
 
 const AppLayout = ({ children }) => {
   const classes = useStyles();
+
+  const location = useLocation(); // This hook provides access to the location object
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const lang = searchParams.get('lang');
+    if (lang) {
+      console.log('lang', lang);
+      i18n.changeLanguage(lang);
+    }
+  }, [location, i18n]);
+
   return (
     <ThemeProvider theme={theme}>
       <Header />

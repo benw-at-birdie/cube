@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/styles';
 import MenuIcon from '@material-ui/icons/Menu';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = ({ location }) => {
 
   const classes = useStyles();
+  const { t } = useTranslation();
 
   return (
   <AppBar position="static" style= {{ backgroundColor: 'rgb(2, 26, 61)', boxShadow: 'none'}}>
@@ -37,7 +39,7 @@ const Header = ({ location }) => {
       <div className={classes.navItems}>
         <img src="/images/birdie_email_icon.png" alt="Support" style={{ margin: '0px', height: '55px' }} />
         <Button style={{ textTransform: 'none', fontFamily: "Circular-Std", fontWeight: '100'}} color="inherit">
-            (Demo) Enterprise Demo Hub ⏷
+            {t('branchName')} ⏷
           </Button>
         <img src="/images/birdie_user_icon.png" alt="Profile" style={{ margin: '0px', marginLeft: '5px', height: '55px' }} />
       </div>

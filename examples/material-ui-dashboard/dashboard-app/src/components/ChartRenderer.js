@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useCubeQuery } from '@cubejs-client/react';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -11,10 +11,25 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import palette from '../theme/palette';
 import moment from 'moment';
+import 'moment/locale/de'; // Import German locale
 import { BarOptions } from '../helpers/BarOptions.js';
 import numbro from 'numbro';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
+// import i18n from '../i18n.js';
+
 const COLORS_SERIES = [palette.primary.main, palette.primary.light, palette.secondary.light];
+
+const useLocalizedMoment = () => {
+  const { i18n } = useTranslation();
+  
+  useEffect(() => {
+    moment.locale(i18n.language);
+  }, [i18n.language]);
+  
+  return moment;
+};
+
 
 const useStyles = makeStyles((theme) => ({
   palette: {
@@ -27,7 +42,46 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const BarChartComponent = ({ resultSet, numberFormat, dateFormat }) => {
+  const { i18n } = useTranslation();
+  
+  // Set moment's locale to the current language
+  useEffect(() => {
+    moment.locale(i18n.language);
+  }, [i18n.language]);
+
+  console.log('numberFormat', numberFormat);
+  let customBarOptions = {...BarOptions};
+
+  // Modify scales.yAxes.ticks for custom formatting
+  customBarOptions.scales = {
+    ...customBarOptions.scales,
+    yAxes: customBarOptions.scales.yAxes.map(yAxis => ({
+      ...yAxis,
+      ticks: {
+        ...yAxis.ticks,
+        callback: function(value) {
+          return numbro(value).format(numberFormat);;
+        }
+      }
+    }))
+  };
+  
+  const data = {
+    labels: resultSet.categories().map((c) => moment(c.x).format(dateFormat)),
+    datasets: resultSet.series().map((s, index) => ({
+      label: s.title,
+      data: s.series.map((r) => r.value),
+      backgroundColor: COLORS_SERIES[index],
+      fill: false,
+    })),
+  };
+
+  return <Bar data={data} options={customBarOptions} />;
+};
+
 const TypeToChartComponent = {
+
   line: ({ resultSet }) => {
     const data = {
       labels: resultSet.categories().map((c) => c.x),
@@ -41,35 +95,9 @@ const TypeToChartComponent = {
     const options = {};
     return <Line data={data} options={options} />;
   },
-  bar: ({ resultSet, numberFormat, dateFormat }) => {
 
-    let customBarOptions = {...BarOptions};
+  bar: BarChartComponent,
 
-    // Modify scales.yAxes.ticks for custom formatting
-    customBarOptions.scales = {
-      ...customBarOptions.scales,
-      yAxes: customBarOptions.scales.yAxes.map(yAxis => ({
-        ...yAxis,
-        ticks: {
-          ...yAxis.ticks,
-          callback: function(value) {
-            return numbro(value).format(numberFormat);
-          }
-        }
-      }))
-    };
-
-    const data = {
-      labels: resultSet.categories().map((c) => moment(c.x).format(dateFormat)),
-      datasets: resultSet.series().map((s, index) => ({
-        label: s.title,
-        data: s.series.map((r) => r.value),
-        backgroundColor: COLORS_SERIES[index],
-        fill: false,
-      })),
-    };
-    return <Bar data={data} options={customBarOptions} />;
-  },
   area: ({ resultSet }) => {
     const data = {
       labels: resultSet.categories().map((c) => c.x),

@@ -9,7 +9,8 @@ export default {
   primary: {
     contrastText: white,
     // dark: '#43436B',
-    main: 'rgb(166, 178, 212)',
+    // main: 'rgb(166, 178, 212)',
+    main: 'rgb(40, 101, 182)',
     // normal: '#7A77FF',
     // action: '#EEEDFF',
     // light: '#F3F3FB',

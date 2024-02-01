@@ -14,40 +14,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import DimensionFilter from './DimensionFilter';
+import { useTranslation } from 'react-i18next';
 
-const AntTabs = withStyles({
-  root: {
-    borderBottom: `1px solid ${palette.primary.main}`,
-  },
-  indicator: {
-    backgroundColor: `${palette.primary.main}`,
-  },
-})(Tabs);
-const AntTab = withStyles((theme) => ({
-  root: {
-    textTransform: 'none',
-    minWidth: 25,
-    fontSize: 12,
-    fontWeight: theme.typography.fontWeightRegular,
-    marginRight: theme.spacing(0),
-    color: palette.primary.dark,
-    opacity: 0.6,
-    '&:hover': {
-      color: `${palette.primary.main}`,
-      opacity: 1,
-    },
-    '&$selected': {
-      color: `${palette.primary.main}`,
-      fontWeight: theme.typography.fontWeightMedium,
-      outline: 'none',
-    },
-    '&:focus': {
-      color: `${palette.primary.main}`,
-      outline: 'none',
-    },
-  },
-  selected: {},
-}))((props) => <Tab disableRipple {...props} />);
 const useStyles = makeStyles((theme) => ({
   root: {},
   row: {
@@ -125,26 +93,13 @@ const Filters = (props) => {
     setDateRange(event.target.value);
   }
 
-  // Dummy data for clients
-  const clients = [
-    { id: 1, name: 'Client A' },
-    { id: 2, name: 'Client B' },
-    { id: 3, name: 'Client C' },
-    // ... other clients
-  ];
-
-  const carers = [
-    { id: 1, name: 'Carer A' },
-    { id: 2, name: 'Carer B' },
-    { id: 3, name: 'Carer C' },
-    // ... other carers
-  ];
+  const { t } = useTranslation();
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>
 
           <FormControl style={{borderBottom: 'none'}}>
-            <InputLabel className={classes.selectTitle} id="date-range-select-label">Date Range</InputLabel>
+            <InputLabel className={classes.selectTitle} id="date-range-select-label">{t('dateRange')}</InputLabel>
             <Select className={classes.select}
               labelId="date-range-select-label"
               id="date-range-select"
@@ -153,15 +108,15 @@ const Filters = (props) => {
               style={{marginTop: 25}}>
               {dateRanges.map((range) => (
                 <MenuItem key={range} value={range.id}>
-                  {range.range}
+                  {range.translation}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
 
           <DimensionFilter
-            label='Client Name'
-            defaultValue='All clients'
+            label={t('clientName')}
+            defaultValue={t('allClients')}
             query={{
               dimensions: [
                 "clients.client_id",
@@ -183,8 +138,8 @@ const Filters = (props) => {
           />
 
           <DimensionFilter
-            label='Carer Name'
-            defaultValue={'All carers'}
+            label={t('carerName')}
+            defaultValue={t('allCarers')}
             query={{
               dimensions: [
                 "users.user_id",

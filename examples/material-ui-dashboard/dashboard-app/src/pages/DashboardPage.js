@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
@@ -7,6 +7,9 @@ import Filters from '../components/Filters.js';
 // import Typography from '../theme/typography.js';
 import Typography from '@material-ui/core/Typography';
 import '../fonts.css';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n.js';
+import { tr } from 'date-fns/locale';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,14 +39,23 @@ const Dashboard = () => {
 
   const classes = useStyles();
 
+  const { t } = useTranslation();
   const dateRanges = [
-    { id: 0, range: 'Last 7 days', granularity: 'day', dateFormat: 'MMM D'},
-    { id: 1, range: 'Last 13 weeks', granularity: 'week', dateFormat: 'MMM D'},
-    { id: 2, range: 'Last 12 months', granularity: 'month', dateFormat: 'MMM YY'}
+    { id: 0, range: 'Last 7 days', granularity: 'day', dateFormat: 'MMM D', translation: t('last7Days')},
+    { id: 1, range: 'Last 13 weeks', granularity: 'week', dateFormat: 'MMM D', translation: t('last13Weeks')},
+    { id: 2, range: 'Last 12 months', granularity: 'month', dateFormat: 'MMM YY', translation: t('last12Months')},
   ];
+
   const [selectedDateRange, setDateRange] = React.useState(0);
-  const [selectedClient, setSelectedClient] = React.useState('All clients');
-  const [selectedCarer, setSelectedCarer] = React.useState('All carers');
+
+  const [selectedClient, setSelectedClient] = useState(t('allClients'));
+  const [selectedCarer, setSelectedCarer] = useState(t('allCarers'));
+
+  // This effect runs when the component mounts and whenever the language changes
+  useEffect(() => {
+    setSelectedClient(t('allClients'));
+    setSelectedCarer(t('allCarers'));
+  }, [i18n.language, t]); // Adding t as a dependency ensures the state updates when translations have been loaded
 
 
   const currentFilters = () => {
@@ -57,7 +69,7 @@ const Dashboard = () => {
     ];
 
     // Add the client_id filter only if selectedClient is set and not null
-    if (selectedClient != 'All clients') {
+    if (selectedClient != t('allClients')) {
       filters.push({
         "member": "clients.client_id",
         "operator": "equals",
@@ -66,7 +78,7 @@ const Dashboard = () => {
     }
 
     // Add the carer_id filter only if selectedCarer is set and not null
-    if (selectedCarer != 'All carers') {
+    if (selectedCarer != t('allCarers')) {
       filters.push({
         "member": "users.user_id",
         "operator": "equals",
@@ -93,7 +105,7 @@ const Dashboard = () => {
       />
 
       <Typography variant="h4" className={classes.sectionHeader}>
-          Visits & hours delivered
+          {t('visitsAndHoursDelivered')}
       </Typography>
 
       <Grid container spacing={4}>
@@ -101,7 +113,7 @@ const Dashboard = () => {
         {/* REPORTED VISITS TREND */}
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
-            title="Reported visits"
+            title={t('reportedVisits')}
             numberFormat="#,##0"
             dateFormat={dateRanges[selectedDateRange].dateFormat}
             query={{
@@ -123,7 +135,7 @@ const Dashboard = () => {
         {/* PERCENT SCHEDULED VISITS COMPLETED */}
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
-            title="Percentage of scheduled visits with report"
+            title={t('percentageOfScheduledVisitsWithReport')}
             numberFormat="0.0%"
             dateFormat={dateRanges[selectedDateRange].dateFormat}
             query={{
@@ -145,7 +157,7 @@ const Dashboard = () => {
         {/* HOURS DELIVERED */}
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
-            title="Hours delivered"
+            title={t('hoursDelivered')}
             numberFormat="#,##0"
             dateFormat={dateRanges[selectedDateRange].dateFormat}
             query={{
@@ -167,7 +179,7 @@ const Dashboard = () => {
         {/* PERCENT OF SCHEDULED HOURS DELIVERED*/}
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
-            title="Percentage of scheduled hours delivered"
+            title={t('percentageOfScheduledHoursDelivered')}
             numberFormat="0.0%"
             dateFormat={dateRanges[selectedDateRange].dateFormat}
             query={{
@@ -189,7 +201,7 @@ const Dashboard = () => {
       </Grid>
 
       <Typography variant="h3" className={classes.sectionHeader}>
-        Punctuality
+        {t('punctuality')}
       </Typography>
       
       <Grid container spacing={4}>
@@ -197,7 +209,7 @@ const Dashboard = () => {
         {/* REPORTED VISITS TREND */}
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
-            title="Percentage of visits starting within 15 mins"
+            title={t('percentageOfVisitsStartingWithin15Mins')}
             numberFormat="0.0%"
             dateFormat={dateRanges[selectedDateRange].dateFormat}
             query={{
@@ -218,14 +230,14 @@ const Dashboard = () => {
       </Grid>
 
       <Typography variant="h3" className={classes.sectionHeader}>
-        Care tasks and observations
+        {t('careTasksAndObservations')}
       </Typography>
       <Typography variant="p" className={classes.sectionHeader}>
         ...
       </Typography>
 
       <Typography variant="h3" className={classes.sectionHeader}>
-        Medications
+        {t('medications')}
       </Typography>
       <Typography variant="p" className={classes.sectionHeader}>
         ...

@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Divider, Drawer } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { SidebarNav } from './components';
 
@@ -46,29 +47,31 @@ const Sidebar = (props) => {
 
   const classes = useStyles();
 
+  const { t } = useTranslation();
+
   const weeklyUpdatesPages = [
     {
-      title: 'Confirm Delivery trends',
+      title: t('deliveryTrends'),
       href: '/dashboard',
       // icon: <DashboardIcon />,
     },
     {
-      title: 'Delivery by client',
+      title: t('deliveryByClient'),
       href: '/orders',
       // icon: <DashboardIcon />,
     },
     {
-      title: 'Delivery by carer',
+      title: t('deliveryByCarer'),
       href: '/orders',
       // icon: <DashboardIcon />,
     },
     {
-      title: 'Management trends',
+      title: t('managementTrends'),
       href: '/orders',
       // icon: <AssignmentIcon />,
     },
     {
-      title: 'Management by client',
+      title: t('managementByClient'),
       href: '/orders',
       // icon: <AssignmentIcon />,
     },
@@ -76,45 +79,46 @@ const Sidebar = (props) => {
 
   const monitoringAndAuditingPages = [
     {
-      title: 'Q-Score summary',
+      title: t('qScoreSummary'),
       href: '/orders',
       // icon: <AssignmentIcon />,
     },
     {
-      title: 'Active client trends',
+      title: t('activeClientTrends'),
       href: '/orders',
       // icon: <AssignmentIcon />,
     },
     {
-      title: 'Actions',
+      title: t('actions'),
       href: '/orders',
       // icon: <DashboardIcon />,
     },
     {
-      title: 'Setup and training',
+      title: t('setupAndTraining'),
       href: '/orders',
       // icon: <AssignmentIcon />,
     },
     {
-      title: 'Actions',
+      title: t('actions'),
       href: '/orders',
       // icon: <AssignmentIcon />,
     },
     {
-      title: 'Client profiles',
+      title: t('clientProfiles'),
       href: '/orders',
       // icon: <AssignmentIcon />,
     },
   ];
 
+
   return (
     <Drawer anchor="left" classes={{ paper: classes.drawer }} onClose={onClose} open={open} variant={variant}>
-      <h3 className={classes.sectionHeader}>Weekly Updates</h3>
+      <h3 className={classes.sectionHeader}>{t('weeklyUpdates')}</h3>
       <div {...rest} className={clsx(classes.root, className)}>
         <SidebarNav className={classes.nav} pages={weeklyUpdatesPages} />
       </div>
       <Divider className={classes.divider} />
-      <h3 className={classes.sectionHeader}>Monitoring & Auditing</h3>
+      <h3 className={classes.sectionHeader}>{t('monitoringAndAuditing')}</h3>
       <div {...rest} className={clsx(classes.root, className)}>
         <SidebarNav className={classes.nav} pages={monitoringAndAuditingPages} />
       </div>
