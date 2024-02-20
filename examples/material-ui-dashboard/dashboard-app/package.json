@@ -19,6 +19,7 @@
     "chart.js": "^2.9.3",
     "date-fns": "^2.14.0",
     "i18next": "^23.8.2",
+    "jsonwebtoken": "8.5.1",
     "moment": "^2.27.0",
     "numbro": "^2.4.0",
     "prop-types": "^15.7.2",
