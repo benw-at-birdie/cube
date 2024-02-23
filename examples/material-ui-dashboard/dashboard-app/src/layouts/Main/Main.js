@@ -8,7 +8,7 @@ import { Sidebar } from './components';
 
 const useStyles = makeStyles(() => ({
   root: {
-    backgroundColor: 'rgb(248, 250, 255)',
+    backgroundColor: 'rgb(248, 249, 250)',
     position: 'relative',
   },
   shiftContent: {

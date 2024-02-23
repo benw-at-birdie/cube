@@ -99,11 +99,6 @@ const Sidebar = (props) => {
       // icon: <AssignmentIcon />,
     },
     {
-      title: t('actions'),
-      href: '/orders',
-      // icon: <AssignmentIcon />,
-    },
-    {
       title: t('clientProfiles'),
       href: '/orders',
       // icon: <AssignmentIcon />,

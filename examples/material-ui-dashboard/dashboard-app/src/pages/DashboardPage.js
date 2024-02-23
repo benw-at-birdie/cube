@@ -40,7 +40,8 @@ const Dashboard = () => {
     const data = {
       content: {
         type: 'dashboard',
-        dashboardUuid: 'd1650e68-839b-4846-b305-5faf54fa379d',
+        dashboardUuid: 'd1650e68-839b-4846-b305-5faf54fa379d', // UK dashboard
+        // dashboardUuid: 'bed740d0-a3a3-4752-9668-068c1808609b', // Germany dashboard
         dashboardFiltersInteractivity: {
           enabled: true,
         },
