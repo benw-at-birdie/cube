@@ -18,7 +18,7 @@ const cubejsApi = cubejs(process.env.REACT_APP_CUBEJS_TOKEN, {
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: 32,
-    backgroundColor: 'rgb(248, 250, 255)',
+    backgroundColor: 'rgb(248, 249, 250)',
     height: '100%',
   },
 }));

@@ -36,17 +36,17 @@ const Dashboard = () => {
 
   useEffect(() => {
     const LIGHTDASH_EMBED_SECRET = process.env.REACT_APP_LIGHTDASH_EMBED_SECRET;
-    const projectUuid = 'd949a8c8-df1a-49a2-ad4a-f3ef4902e4f3';
+    const projectUuid = '9f063766-e928-45ed-b502-bd17afd4024e';
     const data = {
       content: {
         type: 'dashboard',
-        dashboardUuid: 'e8288a56-2a17-41ec-8c76-8497151f9b34',
+        dashboardUuid: 'd1650e68-839b-4846-b305-5faf54fa379d',
         dashboardFiltersInteractivity: {
           enabled: true,
         },
       },
       // userAttributes: {"accessible_branch_ids":"whiteys-care-workers"},
-      userAttributes: {"accessible_branch_ids":["miguels-care-monitors-valencia","miguels-care-monitors-madrid"]},
+      // userAttributes: {"accessible_branch_ids":["miguels-care-monitors-valencia","miguels-care-monitors-madrid"]},
     };
     const token = jwt.sign(data, LIGHTDASH_EMBED_SECRET, { expiresIn: '1 hour' });
     const url = `https://birdie.lightdash.cloud/embed/${projectUuid}/#${token}`;
