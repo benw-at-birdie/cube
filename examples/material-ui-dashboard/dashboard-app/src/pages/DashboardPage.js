@@ -117,22 +117,15 @@ const Dashboard = () => {
             numberFormat="#,##0"
             dateFormat={dateRanges[selectedDateRange].dateFormat}
             query={{
-              "measures": [
-                "visits.reported_visits"
-              ],
-              "timeDimensions": [
-                {
-                  "dimension": "visits.visit_date",
-                  "granularity": `${dateRanges[selectedDateRange].granularity}`,
-                  "dateRange": `${dateRanges[selectedDateRange].range}`
-                }
-              ],
-              "filters": currentFilters()
+                "metrics": [{name: "completed_visit_count"}],
+                "groupBy": [{name: "metric_time", grain: "DAY"}],
+                "where": [{sql:"{{ Dimension('metric_time').grain('day') }} between '2024-02-20' and '2024-02-27'"}],
+                "orderBy": [{groupBy: {name: "metric_time", grain: "DAY"}}]
             }}
           />
         </Grid>
 
-        {/* PERCENT SCHEDULED VISITS COMPLETED */}
+        {/* // PERCENT SCHEDULED VISITS COMPLETED
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
             title={t('percentageOfScheduledVisitsWithReport')}
@@ -154,7 +147,7 @@ const Dashboard = () => {
           />
         </Grid>
 
-        {/* HOURS DELIVERED */}
+        // HOURS DELIVERED
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
             title={t('hoursDelivered')}
@@ -176,7 +169,7 @@ const Dashboard = () => {
           />
         </Grid>
 
-        {/* PERCENT OF SCHEDULED HOURS DELIVERED*/}
+        //PERCENT OF SCHEDULED HOURS DELIVERED 
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
             title={t('percentageOfScheduledHoursDelivered')}
@@ -206,7 +199,7 @@ const Dashboard = () => {
       
       <Grid container spacing={4}>
 
-        {/* PERCENTAGE OF VISITS WITHIN 15 MINS */}
+        // PERCENTAGE OF VISITS WITHIN 15 MINS
         <Grid item xs={3} sm={6} lg={6} xl={6} >
           <BarChart
             title={t('percentageOfVisitsStartingWithin15Mins')}
@@ -226,7 +219,7 @@ const Dashboard = () => {
               "filters": currentFilters()
             }}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
 
       <Typography variant="h3" className={classes.sectionHeader}>

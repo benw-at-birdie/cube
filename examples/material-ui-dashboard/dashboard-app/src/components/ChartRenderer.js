@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useCubeQuery } from '@cubejs-client/react';
+import { useDbtSLQuery } from './useDbtSLQuery/useDbtSLQuery.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Line, Bar, Pie } from 'react-chartjs-2';
 import Typography from '@material-ui/core/Typography';
@@ -50,7 +51,6 @@ const BarChartComponent = ({ resultSet, numberFormat, dateFormat }) => {
     moment.locale(i18n.language);
   }, [i18n.language]);
 
-  console.log('numberFormat', numberFormat);
   let customBarOptions = {...BarOptions};
 
   // Modify scales.yAxes.ticks for custom formatting
@@ -66,16 +66,28 @@ const BarChartComponent = ({ resultSet, numberFormat, dateFormat }) => {
       }
     }))
   };
-  
+
   const data = {
-    labels: resultSet.categories().map((c) => moment(c.x).format(dateFormat)),
-    datasets: resultSet.series().map((s, index) => ({
-      label: s.title,
-      data: s.series.map((r) => r.value),
-      backgroundColor: COLORS_SERIES[index],
-      fill: false,
-    })),
+    labels: resultSet.data.map(item => moment(item.METRIC_TIME__DAY).format(dateFormat)),
+    datasets: [
+      {
+        label: 'Completed Visit Count',
+        data: resultSet.data.map(item => item.COMPLETED_VISIT_COUNT),
+        backgroundColor: COLORS_SERIES[0],
+        borderColor: COLORS_SERIES[0],
+        borderWidth: 1,
+        fill: false,
+      }
+    ]
+    // labels: resultSet.categories().map((c) => moment(c.x).format(dateFormat)),
+    // datasets: resultSet.series().map((s, index) => ({
+    //   label: s.title,
+    //   data: s.series.map((r) => r.value),
+    //   backgroundColor: COLORS_SERIES[index],
+    //   fill: false,
+    // })),
   };
+
 
   return <Bar data={data} options={customBarOptions} />;
 };
@@ -175,7 +187,7 @@ const renderChart = (Component) => ({ resultSet, error, ...props }) =>
 const ChartRenderer = ({ vizState = {} }) => {
   const { query, chartType, numberFormat, dateFormat, ...options } = vizState;
   const component = TypeToMemoChartComponent[chartType];
-  const renderProps = useCubeQuery(query);
+  const renderProps = useDbtSLQuery(query) //useCubeQuery(query);
   return component && renderChart(component)({ numberFormat, dateFormat, ...options, ...renderProps });
 };
 
